@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Limite du connu</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+
+        .mysterious-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #pancarte {
+            transition: transform 0.3s ease;
+        }
+
+        #pancarte:hover {
+            transform: scale(1.02);
+        }
+
+        .return-link {
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .return-link:hover {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="mysterious-container">
+        <svg id="pancarte" width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="480" height="180" 
+                  fill="rgba(0,0,0,0.7)" 
+                  stroke="rgba(0,255,255,0.5)" 
+                  stroke-width="2" 
+                  rx="10"/>
+            
+            <text x="50%" y="40%" 
+                  text-anchor="middle" 
+                  alignment-baseline="middle"
+                  fill="rgba(0,255,255,0.8)" 
+                  font-family="Courier New" 
+                  font-size="20">
+                Le monde s'arrête ici,
+            </text>
+            
+            <text x="50%" y="60%" 
+                  text-anchor="middle" 
+                  alignment-baseline="middle"
+                  fill="rgba(0,255,255,0.8)" 
+                  font-family="Courier New" 
+                  font-size="20"
+                  class="return-link"
+                  onclick="returnToMain()">
+                <tspan style="text-decoration: underline; cursor: pointer;">Faites demi-tour</tspan>
+            </text>
+        </svg>
+    </div>
+
+    <script>
+        function returnToMain() {
+            window.location.href = '/'; // Redirige vers la page principale
+        }
+
+        // Effet de scintillement léger
+        function createSpark() {
+            if (Math.random() > 0.3) return; // Réduit la fréquence
+
+            const spark = document.createElement('div');
+            spark.style.cssText = `
+                position: fixed;
+                width: 2px;
+                height: 2px;
+                background-color: rgba(0,255,255,0.3);
+                border-radius: 50%;
+                left: ${Math.random() * window.innerWidth}px;
+                top: ${Math.random() * window.innerHeight}px;
+            `;
+            document.body.appendChild(spark);
+
+            // Suppression rapide pour éviter l'accumulation
+            setTimeout(() => spark.remove(), 500);
+        }
+
+        // Génère des scintillements moins fréquents
+        const sparkInterval = setInterval(createSpark, 200);
+
+        // Nettoyage pour éviter les fuites de mémoire
+        window.addEventListener('beforeunload', () => {
+            clearInterval(sparkInterval);
+        });
+    </script>
+</body>
+</html>
